@@ -7,9 +7,18 @@ const {
   models: { User, Expense },
 } = require('./models/models');
 
-const requiredExpenseFields = ['spentAt', 'title', 'amount', 'userId'];
+const requiredExpenseFields = [
+  'spentAt',
+  'title',
+  'amount',
+  'userId',
+];
 
-const expenseFields = [...requiredExpenseFields, 'category', 'note'];
+const expenseFields = [
+  ...requiredExpenseFields,
+  'category',
+  'note',
+];
 
 function isMissing(value) {
   return value === undefined || value === null || value === '';
@@ -66,6 +75,13 @@ function hasInvalidExpensePatch(data) {
 function createServer() {
   const app = express();
 
+  app.use((req, res, next) => {
+    res.setHeader(
+      'Content-Type',
+      'application/json; charset=utf-8',
+    );
+    next();
+  });
   app.use(cors());
   app.use(express.json());
 
